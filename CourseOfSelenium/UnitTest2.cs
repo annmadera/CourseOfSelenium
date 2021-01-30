@@ -6,5 +6,8 @@ namespace CourseOfSelenium
 {
     class UnitTest2
     {
+        void Test()
+        { 
+        }
     }
 }
