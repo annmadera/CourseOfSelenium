@@ -16,20 +16,38 @@ namespace CourseOfSelenium.LocatingElements
         public void Setup()
         {
             driver = new ChromeDriver();
-            driver.Manage().Window.Position = new System.Drawing.Point(8, 30);
-            driver.Manage().Window.Size = new System.Drawing.Size(1290, 730);
-            driver.Manage().Timeouts().ImplicitWait = System.TimeSpan.FromSeconds(5);
-            driver.Manage().Timeouts().PageLoad = System.TimeSpan.FromSeconds(5);
+
+           driver.Manage().Timeouts().ImplicitWait = System.TimeSpan.FromSeconds(10);
+           driver.Manage().Timeouts().PageLoad = System.TimeSpan.FromSeconds(10);
         }
         [Test]
-        public  void LocatingElementsTest()
+        public  void LocatingElementsTestById()
         {
             driver.Navigate().GoToUrl("https://fakestore.testelka.pl");
-            IWebElement search=driver.FindElement(By.Id("woocommerce - product - search - field - 0"));
+            IWebElement search=driver.FindElement(By.Id("woocommerce-product-search-field-0"));
             search.SendKeys("Grecja - Limnos");
             search.Submit();
             Assert.AreEqual("Grecja – Limnos – FakeStore", driver.Title, "Page title is not correct.");
             Assert.AreEqual("https://fakestore.testelka.pl/product/grecja-limnos/", driver.Url, "URL is not correct.");
+        }
+
+
+        [Test]
+        public void LocatingElementsTestByClass()
+        {
+            driver.Navigate().GoToUrl("https://fakestore.testelka.pl");
+            IWebElement header = driver.FindElement(By.TagName("header"));
+            IWebElement search =header.FindElement(By.ClassName("search-field"));
+            search.SendKeys("Grecja - Limnos");
+            search.Submit();
+            Assert.AreEqual("Grecja – Limnos – FakeStore", driver.Title, "Page title is not correct.");
+            Assert.AreEqual("https://fakestore.testelka.pl/product/grecja-limnos/", driver.Url, "URL is not correct.");
+        }
+
+        [TearDown]
+        public void QuiteDriver()
+        {
+            driver.Quit();
         }
 
     }
