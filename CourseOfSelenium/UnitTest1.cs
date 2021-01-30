@@ -35,10 +35,5 @@ namespace TestowyProjekt
             driver.Quit();
         }
 
-        [TearDown]
-        public void QuitDriverB()
-        {
-            driver.Quit();
-        }
-    }
+     }
 }
