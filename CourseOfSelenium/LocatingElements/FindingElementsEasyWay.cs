@@ -44,7 +44,39 @@ namespace CourseOfSelenium.LocatingElements
             Assert.AreEqual("https://fakestore.testelka.pl/product/grecja-limnos/", driver.Url, "URL is not correct.");
         }
 
-        [TearDown]
+        [Test]
+        public void IsPaymentButtonCartPageTest()
+        {
+            driver.Navigate().GoToUrl("https://fakestore.testelka.pl/product/gran-koscielcow/");
+            driver.FindElement(By.Name("add-to-cart")).Click();
+            driver.FindElement(By.LinkText("Zobacz koszyk")).Click();
+            Assert.DoesNotThrow(()=>driver.FindElement(By.LinkText("Przejdź do kasy")), "Go to payment link was not found."); /*asercja z wykorzystaniem wyrażenia lambda*/
+
+        /*Asercja z wykorzysraniem delegaqty*/
+/*            TestDelegate findGoToPaymentLink = new TestDelegate(FindGoToPaymentLink);
+            Assert.DoesNotThrow(findGoToPaymentLink, "Go to payment link was not found.") ;*/
+
+
+
+        }
+
+        /*        private void FindGoToPaymentLink()
+                {
+                    driver.FindElement(By.LinkText("Przejdź do kasy"));
+
+                }*/
+
+        [Test]
+        public void IsNotPaymentButtonCartPageTest()
+        {
+            driver.Navigate().GoToUrl("https://fakestore.testelka.pl/koszyk");
+            Assert.Throws<NoSuchElementException>(() => 
+           driver.FindElement(By.LinkText("Przejdź do kasy")), "Go to payment link was not found."); /*asercja z wykorzystaniem wyrażenia lambda*/
+
+
+        }
+
+            [TearDown]
         public void QuiteDriver()
         {
             driver.Quit();
